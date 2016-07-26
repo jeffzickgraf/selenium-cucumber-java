@@ -1,7 +1,10 @@
 package stepDefintions;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.junit.Assert;
 import methods.TestCaseFailed;
 import cucumber.api.java.en.Then;
 import env.BaseTest;
@@ -14,7 +17,7 @@ public class PredefinedStepDefinitions implements BaseTest
 		@Then("^I navigate to \"([^\"]*)\"$")
 		public void navigate_to(String link)
 		{
-			navigationObj.navigateTo(link);
+			driver.get(link);			
 		}
 			
 		//Step to navigate forward
@@ -187,15 +190,32 @@ public class PredefinedStepDefinitions implements BaseTest
 	public void check_partial_text(String present, String partialTextTitle) throws TestCaseFailed
 	{
 		//System.out.println("Present :" + present.isEmpty());
-		assertionObj.checkPartialTitle(partialTextTitle, present.isEmpty());
+		//assertionObj.checkPartialTitle(partialTextTitle, present.isEmpty());
+		if(present.isEmpty())
+		{
+			Assert.assertTrue(driver.getTitle().contains(partialTextTitle));			
+		}
+		else
+		{
+			Assert.assertFalse(driver.getTitle().contains(partialTextTitle));
+		}		
 	}
-		
+			
 	// step to check element text
 	@Then("^element having (.+) \"([^\"]*)\" should\\s*((?:not)?)\\s+have text as \"(.*?)\"$")
 	public void check_element_text(String type, String accessName,String present,String value) throws Exception 
 	{
-		miscmethodObj.validateLocator(type);
-		assertionObj.checkElementText(type, value, accessName,present.isEmpty());
+		String text = driver.findElementByXPath(accessName).getText();
+		if(present.isEmpty())
+		{
+			Assert.assertTrue(text.equals(value));			
+		}
+		else
+		{
+			Assert.assertFalse(text.equals(value));
+		}
+		//miscmethodObj.validateLocator(type);
+		//assertionObj.checkElementText(type, value, accessName,present.isEmpty());
 	}	
 		
 	//step to check element partial text
@@ -299,7 +319,8 @@ public class PredefinedStepDefinitions implements BaseTest
 	public void enter_text(String text, String type,String accessName) throws Exception
 	{
 		miscmethodObj.validateLocator(type);
-		inputObj.enterText(type, text, accessName);
+		driver.findElementByXPath(accessName).sendKeys(text);;
+		//inputObj.enterText(type, text, accessName);
 	}
 
 	// clear input field steps
@@ -425,8 +446,15 @@ public class PredefinedStepDefinitions implements BaseTest
 		@Then("^I click on element having (.+) \"(.*?)\"$") 
 		public void click(String type,String accessName) throws Exception
 		{
-			miscmethodObj.validateLocator(type);
-			clickObj.click(type, accessName);
+			Map<String, Object> textClickParams = new HashMap<>();
+			textClickParams.put("label", "I'm Interested");
+			textClickParams.put("scrolling", "scroll");
+			textClickParams.put("next", "SWIPE_UP");
+			driver.executeScript("mobile:button-text:click", textClickParams);
+			
+			
+			//miscmethodObj.validateLocator(type);
+			//clickObj.click(type, accessName);
 		}
 			  
 		//Forcefully click on element

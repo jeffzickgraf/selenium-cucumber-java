@@ -1,11 +1,10 @@
-Feature: Gmail Login
-        As a user I should able to login into Gmail.
+Feature: Randrr I'm Interested
+        As a user I should able to request to stay in touch.
  
- Scenario: I login with valid credential
-        Given I navigate to "http://www.gmail.com"
-        And I enter "test@gmail.com" into input field having id "Email"
-        Then I click on element having id "next"
-        And I enter "123456" into input field having id "Passwd"
-        When I click on element having id "signIn"
-        And I wait for 15 sec
-        Then I close browser
+ Scenario: I enter invalid email 
+        Given I navigate to "http://www.randrr.com"
+        Then I should see page title having partial text as "Revolutionizing recruiting for the common"
+        And I enter "A-Garbage-Email-Address" into input field having xpath "(//input[@name='email'])[1]"
+        And I click on element having value "I'm Interested"
+        Then element having xpath "//label[@data-reactid='.0.0:$0.$email.3.$0.0']" should have text as "Email must be formatted correctly."
+        

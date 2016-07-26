@@ -8,6 +8,26 @@
     <packaging>jar</packaging>
     <name>selenium-cucumber-java</name>
 
+<repositories>
+		<repository>
+			<id>perfectomobile</id>
+			<name>Perfecto mobile</name>
+			<url>http://repository-perfectomobile.forge.cloudbees.com/public</url>
+		</repository>
+		<repository>
+			<id>central</id>
+			<name>Repo1</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+	
     <dependencies>
         <!-- These are the cucumber dependencies -->
         <dependency>
@@ -55,6 +75,17 @@
 		    <scope>system</scope>
 		    <systemPath>${project.basedir}/src/main/resources/selenium-cucumber-methods-1.0.0.jar</systemPath>
 		</dependency>  
+	<!-- Perfecto -->
+	 <dependency>
+			<groupId>com.perfectomobile</groupId>
+			<artifactId>pm-webdriver</artifactId>
+			<version>5.4.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.perfectomobile</groupId>
+			<artifactId>http-client</artifactId>
+			<version>5.4.0.1</version>
+		</dependency>
 	</dependencies>
 
     
